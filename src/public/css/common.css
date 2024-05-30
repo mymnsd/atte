@@ -1,0 +1,80 @@
+body{
+  background-color: #aaa;
+}
+
+.header{
+  background-color: #fff;
+  height: 100px;
+  max-width: 1500px;
+}
+
+.header__inner{
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  padding: 15px 25px;
+}
+
+.header__ttl{
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.header-nav{
+
+}
+
+.header-nav__list{
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-nav__item{
+
+}
+
+.header-nav__link{
+
+}
+
+.container{
+  max-width: 1500px;
+}
+
+.container__inner{
+  max-width: 100%;
+  padding: 100px;
+}
+
+.container__ttl{
+  text-align: center;
+}
+
+.form{
+  width: 60%;
+}
+
+.form__text{
+
+}
+
+.form__text--input{
+
+}
+
+.form__btn{
+
+}
+
+.form__btn-submit{
+
+}
+
+.message{
+
+}
+
+.link{
+
+}

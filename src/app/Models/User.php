@@ -24,6 +24,7 @@ class User extends Authenticatable
         'password',
     ];
 
+
     public function attendance(){
         return $this->belongsTo(Attendance::class);
     }

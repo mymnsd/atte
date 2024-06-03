@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBrakesTable extends Migration
+class CreateRestsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateBrakesTable extends Migration
      */
     public function up()
     {
-        Schema::create('brakes', function (Blueprint $table) {
+        Schema::create('rests', function (Blueprint $table) {
             $table->id();
-            foreignId('attendance_id')->constrained()->cascadeOnDelete();
-            $table->time('brake_in');
-            $table->time('brake_out');
+            $table->foreignId('attendance_id')->constrained()->cascadeOnDelete();
+            $table->time('start_time');
+            $table->time('end_time');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateBrakesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('brakes');
+        Schema::dropIfExists('rests');
     }
 }

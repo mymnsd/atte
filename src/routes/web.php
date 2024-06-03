@@ -14,4 +14,6 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::get('/login', [AuthController::class,'getLogin']);
+Route::middleware('auth')->group(function () {
+    Route::get('/', [AuthController::class, 'getLogin']);
+});

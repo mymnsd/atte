@@ -1,37 +1,64 @@
 @extends('layouts.app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/register.css') }}">
+<link rel="stylesheet" href="{{ asset('css/auth/register.css') }}">
 @endsection
 
 @section('content')
-<div class="container">
-  <div class="container__inner">
-    <h2 class="container__ttl">
-      ログイン
-    </h2>
-    <form class="form" action="">
-      <div class="form__text">
-        <input class="form__text--input" type="text" name="name" placeholder="名前">
+<div class="register-content">
+  <div class="register-form__heading">
+    <h2>会員登録</h2>
+  </div>
+    <form class="form" action="/register" method="post">
+      @csrf
+    <div class="form__group">
+      <div class="form__group-content">
+        <div class="form__input--text">
+          <input type="text" name="name" placeholder="名前" value="{{ old('name') }}" />
+        </div>
+        <div class="form__error">
+          @error('name')
+          {{ $message }}
+          @enderror
+        </div>
       </div>
-      <div class="form__text">
-        <input class="form__text--input" type="text" name="email" placeholder="メールアドレス">
+    </div>
+    <div class="form__group">
+      <div class="form__group-content">
+        <div class="form__input--text">
+          <input type="email" name="email" placeholder="メールアドレス" value="{{ old('email') }}" />
+        </div>
+        <div class="form__error">
+          @error('email')
+          {{ $message }}
+          @enderror
+        </div>
       </div>
-      <div class="form__text">
-        <input class="form__text--input" type="text" name="password" placeholder="パスワード">
+    </div>
+    <div class="form__group">
+      <div class="form__group-content">
+        <div class="form__input--text">
+          <input type="password" name="password" placeholder="パスワード"/>
+        </div>
+        <div class="form__error">
+          @error('password')
+          {{ $message }}
+          @enderror
+        </div>
       </div>
-      <div class="form__text">
-        <input class="form__text--input" type="text" name="password" placeholder="確認用パスワード">
+    </div>
+    <div class="form__group">
+      <div class="form__group-content">
+        <div class="form__input--text">
+          <input type="password" name="password_confirmation" placeholder="確認用パスワード"/>
+        </div>
       </div>
-      <div class="form__text">
-        <input class="form__text--input" type="text" name="password" placeholder="パスワード">
-      </div>
-      <div class="form__btn">
-        <button class="form__btn-submit" type="submit">
-          会員登録
-        </button>
-      </div>
-    </form>
+    </div>
+    <div class="form__button">
+      <button class="form__button-submit" type="submit">登録</button>
+    </div>
+  </form>
+  <div class="login__link">
     <p class="message">
       アカウントをお持ちの方はこちらから
     </p>

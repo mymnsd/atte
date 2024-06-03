@@ -10,13 +10,13 @@ class Attendance extends Model
     use HasFactory;
 
     protected $fillable = [
-        'brake_id',
+        'rest_id',
         'date',
-        'clock_in',
-        'clock_out',
+        'start_time',
+        'end_time',
     ];
 
-    public function brake(){
-        return $this->belongsTo(Brake::class);
+    public function rest(){
+        return $this->belongsTo(Rest::class);
     }
 }

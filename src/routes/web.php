@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AttendanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,5 +16,14 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::middleware('auth')->group(function () {
+    // ログインページ表示
     Route::get('/', [AuthController::class, 'getLogin']);
+    // 日付一覧ページ表示
+    Route::get('/attendance',[AttendanceController::class,'getAttendance']);
+    // 出退勤打刻
+    Route::post('/attendance/start',[AttendanceController::class,'startAttendance']);
+    Route::post('/attendance/end',[AttendanceController::class,'endAttendance']);
+    // 休憩打刻
+    Route::post('/brake/start',[AttendanceController::class,'startRest']);
+    Route::post('brake/end',[AttendanceController::class,'endRest']);
 });

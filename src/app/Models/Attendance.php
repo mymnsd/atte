@@ -10,13 +10,15 @@ class Attendance extends Model
     use HasFactory;
 
     protected $fillable = [
-        'rest_id',
+        'user_id',
         'date',
         'start_time',
         'end_time',
     ];
 
-    public function rest(){
-        return $this->belongsTo(Rest::class);
+    public function user(){
+        $this->belongsTo(User::class);
     }
+
+    
 }

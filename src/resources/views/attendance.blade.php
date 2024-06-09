@@ -38,7 +38,7 @@
           <th class="attendance-table__header">勤務時間</th>
         </tr>
         <tr class="attendance-table__row">
-          <td class="attendance-table__item">名前</td>
+          <td class="attendance-table__item">{{ Auth::user()->name }}</td>
           <td class="attendance-table__item">0:00:00</td>
           <td class="attendance-table__item">0:00:00</td>
           <td class="attendance-table__item">0:00:00</td>

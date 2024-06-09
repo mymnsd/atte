@@ -10,10 +10,12 @@ use Carbon\Carbon;
 
 class AttendanceController extends Controller
 {
+    // 日付一覧ページ表示
     public function getAttendance(){
         return view('attendance');
     }
     
+    // 勤務開始処理
     public function startAttendance(Request $request){
         $user = Auth::user();
 
@@ -38,6 +40,8 @@ class AttendanceController extends Controller
 
         return redirect('/');
     }
+
+    // 勤務終了処理
     public function endAttendance(Request $request){
         $user = Auth::user();
 
@@ -45,7 +49,6 @@ class AttendanceController extends Controller
 
         if(empty($timestamp->end_time)){
             $timestamp->update([
-                // 'date' => $newTimestampDay,
                 'end_time' => Carbon::now()
             ]);
             return redirect('/');

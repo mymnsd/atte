@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\RestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/attendance/start',[AttendanceController::class,'startAttendance']);
     Route::post('/attendance/end',[AttendanceController::class,'endAttendance']);
     // 休憩打刻
-    Route::post('/brake/start',[AttendanceController::class,'startRest']);
-    Route::post('brake/end',[AttendanceController::class,'endRest']);
+    Route::post('/break/start',[RestController::class,'startRest']);
+    Route::post('break/end',
+    [RestController::class,'endRest']);
 });

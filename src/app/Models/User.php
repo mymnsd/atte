@@ -25,8 +25,8 @@ class User extends Authenticatable
     ];
 
 
-    public function attendance(){
-        return $this->belongsTo(Attendance::class);
+    public function rests(){
+        return $this->hasMany(Rest::class);
     }
 
     /**
@@ -47,4 +47,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
 }
+

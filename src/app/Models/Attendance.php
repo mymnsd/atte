@@ -19,6 +19,9 @@ class Attendance extends Model
     public function user(){
         $this->belongsTo(User::class);
     }
+    public function rests(){
+        return $this->hasMany(Rest::class);
+    }
 
     
 }

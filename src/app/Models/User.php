@@ -25,8 +25,8 @@ class User extends Authenticatable
     ];
 
 
-    public function rests(){
-        return $this->hasMany(Rest::class);
+    public function attendances(){
+        return $this->hasMany(Attendance::class);
     }
 
     /**

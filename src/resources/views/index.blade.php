@@ -8,16 +8,24 @@
 <nav class="header-nav">
   <ul class="header-nav__list">
     @if (Auth::check())
-      <li class="header-nav__item">
-        <a class="header-nav__link" href="/">ホーム</a>
-      </li>
-      <li class="header-nav__item">
-        <a class="header-nav__link" href="/attendance">日付一覧</a>
-      </li>
+    <li class="header-nav__item">
+      <form action="/" method="get">
+        @csrf
+        <button class="header-nav__btn" type="submit">ホーム</button>
+      </form>
+    </li>
+    <li class="header-nav__item">
+      <form action="/attendance" method="post">
+        @csrf
+        <button class="header-nav__btn" type="submit">日付一覧</button>
+      </form>
+    </li>
+    <li class="header-nav__item">
       <form action="/logout" method="post">
       @csrf
-        <button class="header-nav__btn">ログアウト</button>
+        <button class="header-nav__btn" type="submit">ログアウト</button>
       </form>
+    </li>
     @endif
   </ul>
 </nav>

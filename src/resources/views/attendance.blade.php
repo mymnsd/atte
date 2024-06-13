@@ -9,15 +9,21 @@
     <ul class="header-nav">
       @if (Auth::check())
         <li class="header-nav__item">
-          <a class="header-nav__link" href="/">ホーム</a>
+          <form action="/" method="get">
+            @csrf
+            <button class="header-nav__btn" type="submit">ホーム</button>
+          </form>
         </li>
         <li class="header-nav__item">
-          <a class="header-nav__link" href="/attendance">日付一覧</a>
+          <form action="/attendance" method="post">
+            @csrf
+            <button class="header-nav__btn" type="submit">日付一覧</button>
+          </form>
         </li>
         <li class="header-nav__item">
           <form action="/logout" method="post">
             @csrf
-            <button class="header-nav__btn">ログアウト</button>
+            <button class="header-nav__btn" type="submit">ログアウト</button>
           </form>
         </li>
       @endif
@@ -27,7 +33,9 @@
 
 @section('content')
   <div class="attendance__content">
-    <h2 class="date">2024-06-06</h2>
+    <h2 class="date">
+      {{ $formatteDate }}
+    </h2>
     <div class="attendance-table">
       <table class="attendance-table__inner">
         <tr class="attendance-table__row">
@@ -37,13 +45,20 @@
           <th class="attendance-table__header">休憩時間</th>
           <th class="attendance-table__header">勤務時間</th>
         </tr>
+        @foreach ($attendances as $attendance)
         <tr class="attendance-table__row">
-          <td class="attendance-table__item">{{ Auth::user()->name }}</td>
-          <td class="attendance-table__item">0:00:00</td>
-          <td class="attendance-table__item">0:00:00</td>
-          <td class="attendance-table__item">0:00:00</td>
-          <td class="attendance-table__item">0:00:00</td>
+          <td class="attendance-table__item">
+            {{ $attendance->user->name }}</td>
+          <td class="attendance-table__item">
+            {{ $attendance->start_time}}</td>
+          <td class="attendance-table__item">
+            {{ $attendance->end_time }}</td>
+          <td class="attendance-table__item">
+            {{ $attendance->rest_time }}</td>
+          <td class="attendance-table__item">
+            {{ $attendance->working_hours }}</td>
         </tr>
+        @endforeach
       </table>
     </div>
   </div>

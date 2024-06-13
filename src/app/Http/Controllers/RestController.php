@@ -17,43 +17,65 @@ class RestController extends Controller
 
         $oldTimestamp = Attendance::where('user_id',$user->id)->latest()->first();
 
-        if(!$oldTimestamp){
-            $oldTimestamp = Attendance::create([
-                'user_id' => $user->id,
-                'start_time' => Carbon::now(),
+        if($oldTimestamp && $oldTimestamp->start_time && !$oldTimestamp->end_time && !$oldTimestamp->start_rest){
+            Rest::create([
+                'attendance_id' => $oldTimestamp->id,
+                'start_rest' => Carbon::now(),
+                'end_rest' => null,
             ]);
+            return redirect('/');      
         }
-
-        if($oldTimestamp->start_time && !$oldTimestamp->end_time){
-            $latestRest = $oldTimestamp->rests()->latest()->first();
-
-            if(!$latestRest || $latestRest->end_rest){
-                Rest::create([
-                    'attendance_id' => $oldTimestamp->id,
-                    'start_rest' => Carbon::now(),
-                    'end_rest' => null,
-                ]);
-            }
-        }
-        return redirect('/');
+        return redirect('/'); 
     }
     
     // 休憩終了処理
     public function endRest(Request $request){
         $user = Auth::user();
 
+        // 最後の出勤を取得
         $oldTimestamp = Attendance::where('user_id',$user->id)->latest()->first();
-        
-        if($oldTimestamp){
-            $latestRest = $oldTimestamp->rests()->latest()->first();
-            
-            if($latestRest && !$latestRest->end_rest){
-                $latestRest->update([
-                    'end_rest' => Carbon::now(),
-                ]);
-                return redirect('/');
-            }
+
+        // 最後の出勤に関連する休憩を取得
+        $restRecord = Rest::where('attendance_id',$oldTimestamp->id)->whereNull('end_rest')->first();
+
+        if($restRecord){
+            $restRecord->update([
+                'end_rest' => Carbon::now(),
+            ]);
             return redirect('/');
         }
+        return redirect('/');
+        
+
+        // $startRest = new Carbon($outTime->start_rest);
+        // $endRest = new Carbon($outTime->end_rest);
+
+        // $restTime = $startRest-> diffInMinutes($endRest);
+
+        // if($restRecord){
+        //     $restRecord->update([
+        //         'end_rest' => Carbon::now(),
+        // ]);
+        //     return redirect('/');
+        // }
+        // return redirect('/');
     }
+
+    // public function showRest(){
+    //     $user = Auth::user();
+    //     $rests = Rest::whereHas('attendance',function($query) use ($user){
+    //         $query->where('user_id',$user->id);
+    //     })->get();
+
+    //     $totalRest = $rests->reduce(function ($carry,$rest){
+    //         if($rest->start_rest && $rest->end_rest){
+    //             $carry += Carbon::parse($rest->end_rest)->deffInSeconds(Carbon::parse($rest->start_rest));
+    //     }
+    //     return $carry;
+    //     }, 0);
+
+    //     return view('attendance',[
+    //         'totalRest' => $totalRest,
+    //         'rests' => $rests, 
+    //     ]);
 }

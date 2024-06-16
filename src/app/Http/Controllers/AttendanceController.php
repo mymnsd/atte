@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator; 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Attendance;
 use App\Models\Rest;
@@ -11,13 +12,25 @@ use Carbon\Carbon;
 
 class AttendanceController extends Controller
 {
+
     public function getAttendance(Request $request){
         $user = Auth::user();
 
-        $date = $request->input('date',Carbon::today()->toDateString());
+        $date = $request->input('date');
+        if(isset($date)){
+            // $today = Carbon::parse($date);
+            // $yesterday = $today->copy()->subDay(1)->format('Y/m/d');
+            // $tomorrow = $today->copy()->addDay(1)->format('Y/m/d');
+            $attendances = Attendance::whereDate('date', [$date])->paginate(5);
+        }else{
+            // $today = Carbon::today();
+            // $yesterday = $today->copy()->subDay(1)->format('Y/m/d');
+            // $tomorrow = $today->copy()->addDay(1)->format('Y/m/d');
+            // $date = $today->format('Y/m/d');
+            $date = Carbon::today()->format('Y-m-d');
+            $attendances = Attendance::whereDate('date', [$date])->paginate(5);
+        };
 
-        $attendances = Attendance::whereDate('date',$date)->with('user')->get();
-        
         foreach($attendances as $attendance){
             $rests = Rest::where('attendance_id', $attendance->id)->get();
             $totalRestTime = $rests->reduce(function ($carry, $rest) {
@@ -36,46 +49,63 @@ class AttendanceController extends Controller
             // フォーマットを変換して追加
             $attendance->rest_time = gmdate('H:i:s', $totalRestTime);
             $attendance->working_hours = $workingHours ? gmdate('H:i:s', $workingHours) : 'N/A';
-            
-            return view('attendance.index', ['attendances' => $attendances]);
         }
 
         $formatteDate = Carbon::parse($date)->format('Y-m-d');
 
-        return view('attendance',compact('attendances','formatteDate'));
+        $prevDate = Carbon::parse($date)->subDay()->format('Y-m-d');
+        $nextDate = Carbon::parse($date)->addDay()->format('Y-m-d');
+
+        return view('attendance',compact('attendances','formatteDate','prevDate','nextDate','date'))->withInput($request->all());
+
     }
-    public function postAttendance(Request $request){
-        $user = Auth::user();
-    
-        $date = $request->input('date',Carbon::today()->toDateString());
+
+    // public function postAttendance(Request $request){
+    //     $user = Auth::user();
+
+    //     $date = $request->input('date');
+    //     if(isset($date)){
+    //         $today = Carbon::parse($date);
+    //         $yesterday = $today->copy()->subDay(1)->format('Y/m/d');
+    //         $tomorrow = $today->copy()->addDay(1)->format('Y/m/d');
+    //         $attendances = Attendance::where('date', [$date])->paginate(5);
+    //     }else{
+    //         $today = Carbon::today();
+    //         $yesterday = $today->copy()->subDay(1)->format('Y/m/d');
+    //         $tomorrow = $today->copy()->addDay(1)->format('Y/m/d');
+    //         $date = $today->format('Y/m/d');
+    //         $attendances = Attendance::where('date', [$date])->paginate(5);
+    //     };
         
-        $attendances = Attendance::whereDate('date',$date)->with('user')->get();
+    //     $attendances = Attendance::whereDate('date',$date)->with('user');
 
-        foreach($attendances as $attendance){
-            // 休憩時間を計算
-            $rests = Rest::where('attendance_id', $attendance->id)->get();
-            $totalRestTime = $rests->reduce(function ($carry, $rest) {
-                if ($rest->start_rest && $rest->end_rest) {
-                    $carry += Carbon::parse($rest->end_rest)->diffInSeconds(Carbon::parse($rest->start_rest));
-                }
-                return $carry;
-            }, 0);
+    //     foreach($attendances as $attendance){
+    //         // 休憩時間を計算
+    //         $rests = Rest::where('attendance_id', $attendance->id)->get();
+    //         $totalRestTime = $rests->reduce(function ($carry, $rest) {
+    //             if ($rest->start_rest && $rest->end_rest) {
+    //                 $carry += Carbon::parse($rest->end_rest)->diffInSeconds(Carbon::parse($rest->start_rest));
+    //             }
+    //             return $carry;
+    //         }, 0);
 
-            if ($attendance->start_time && $attendance->end_time) {
-                $workingHours = Carbon::parse($attendance->end_time)->diffInSeconds(Carbon::parse($attendance->start_time)) - $totalRestTime;
-            } else {
-                $workingHours = null;
-            }
+    //         // 勤務時間を計算
+    //         if ($attendance->start_time && $attendance->end_time) {
+    //             $workingHours = Carbon::parse($attendance->end_time)->diffInSeconds(Carbon::parse($attendance->start_time)) - $totalRestTime;
+    //         } else {
+    //             $workingHours = null;
+    //         }
 
-            // フォーマットを変換して追加
-            $attendance->rest_time = gmdate('H:i:s', $totalRestTime);
-            $attendance->working_hours = $workingHours ? gmdate('H:i:s', $workingHours) : 'N/A';
-        }
+    //         // 時：分：秒に変換
+    //         $attendance->rest_time = gmdate('H:i:s', $totalRestTime);
+    //         // $workingHoursがnullではない場合、時：分：秒に設定、nullの場合N/Aを設定
+    //         $attendance->working_hours = $workingHours ? gmdate('H:i:s', $workingHours) : 'N/A';
+    //     }
 
-        $formatteDate = Carbon::parse($date)->format('Y-m-d');
+    //     $formatteDate = Carbon::parse($date)->format('Y-m-d');
 
-        return view('attendance',compact('attendances','formatteDate'));
-    }
+    //     return view('attendance',compact('attendances','formatteDate'))->withInput($request->all());
+    // }
     
     // 勤務開始処理
     public function startAttendance(Request $request){
@@ -155,7 +185,44 @@ class AttendanceController extends Controller
         }else{
             return redirect('/');  
             }
+            $user = Auth::user();
+
+        $date = $request->input('date',Carbon::today()->toDateString());
+
+        $attendances = Attendance::whereDate('date',$date)->with('user')->get();
+        
+        foreach($attendances as $attendance){
+            $rests = Rest::where('attendance_id', $attendance->id)->get();
+            $totalRestTime = $rests->reduce(function ($carry, $rest) {
+                if ($rest->start_rest && $rest->end_rest) {
+                    $carry += Carbon::parse($rest->end_rest)->diffInSeconds(Carbon::parse($rest->start_rest));
+                }
+                return $carry;
+            }, 0);
+
+            // 実働時間
+            if ($attendance->start_time && $attendance->end_time) {
+                $workingHours = Carbon::parse($attendance->end_time)->diffInSeconds(Carbon::parse($attendance->start_time)) - $totalRestTime;
+            } else {
+                $workingHours = null;
+            }
+            // フォーマットを変換して追加
+            $attendance->rest_time = gmdate('H:i:s', $totalRestTime);
+            $attendance->working_hours = $workingHours ? gmdate('H:i:s', $workingHours) : 'N/A';
+            
+            return view('attendance.index', ['attendances' => $attendances]);
         }
+
+        $formatteDate = Carbon::parse($date)->format('Y-m-d');
+
+        return view('attendance',compact('attendances','formatteDate'));
+        }
+
+        // public function getPaginate($num){
+        //     $attendances = Attendance::with('user')->paginate(5);
+        //     return view('attendance',compact('attendances'));
+
+        // }
 }
 
 

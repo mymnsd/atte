@@ -5,37 +5,39 @@
 @endsection
 
 @section('link')
-  <nav>
-    <ul class="header-nav">
-      @if (Auth::check())
-        <li class="header-nav__item">
-          <form action="/" method="get">
-            @csrf
-            <button class="header-nav__btn" type="submit">ホーム</button>
-          </form>
-        </li>
-        <li class="header-nav__item">
-          <form action="/attendance" method="post">
-            @csrf
-            <button class="header-nav__btn" type="submit">日付一覧</button>
-          </form>
-        </li>
-        <li class="header-nav__item">
-          <form action="/logout" method="post">
-            @csrf
-            <button class="header-nav__btn" type="submit">ログアウト</button>
-          </form>
-        </li>
-      @endif
-    </ul>
-  </nav>
+<nav class="header-nav">
+  <ul class="header-nav__list">
+    @if (Auth::check())
+    <li class="header-nav__item">
+      <form action="/" method="get">
+        @csrf
+        <button class="header-nav__btn" type="submit">ホーム</button>
+      </form>
+    </li>
+    <li class="header-nav__item">
+      <form action="/attendance" method="get">
+        @csrf
+        <button class="header-nav__btn" type="submit">日付一覧</button>
+      </form>
+    </li>
+    <li class="header-nav__item">
+      <form action="/logout" method="post">
+      @csrf
+        <button class="header-nav__btn" type="submit">ログアウト</button>
+      </form>
+    </li>
+    @endif
+  </ul>
+</nav>
 @endsection
 
 @section('content')
   <div class="attendance__content">
+    <a class="attendance__link" href="/attendance?date={{ $prevDate }}">前日</a>
     <h2 class="date">
       {{ $formatteDate }}
     </h2>
+    <a class="attendance__link" href="/attendance?date={{ $nextDate }}">翌日</a>
     <div class="attendance-table">
       <table class="attendance-table__inner">
         <tr class="attendance-table__row">
@@ -59,7 +61,8 @@
             {{ $attendance->working_hours }}</td>
         </tr>
         @endforeach
-      </table>
+        </table>
+      {{ $attendances->appends(['date' => $date])->links() }}
     </div>
   </div>
 @endsection

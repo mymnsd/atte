@@ -15,7 +15,7 @@
       </form>
     </li>
     <li class="header-nav__item">
-      <form action="/attendance" method="post">
+      <form action="/attendance" method="get">
         @csrf
         <button class="header-nav__btn" type="submit">日付一覧</button>
       </form>

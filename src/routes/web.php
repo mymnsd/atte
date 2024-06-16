@@ -19,9 +19,10 @@ use App\Http\Controllers\RestController;
 Route::middleware('auth')->group(function () {
     // ログインページ表示
     Route::get('/', [AuthController::class, 'getLogin']);
-
     Route::get('/attendance',[AttendanceController::class,'getAttendance']);
-    Route::post('/attendance',[AttendanceController::class,'postAttendance']);
+    // Route::post('/attendance',[AttendanceController::class,'postAttendance']);
+    // ページネーション
+    // Route::get('/attendance/{num}', [AttendanceController::class, 'getPaginate']);
     // 出退勤打刻
     Route::post('/attendance/start',[AttendanceController::class,'startAttendance']);
     Route::post('/attendance/end',[AttendanceController::class,'endAttendance']);

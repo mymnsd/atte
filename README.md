@@ -29,14 +29,6 @@ laravel学習のまとめとして作成しました。
   
   ・MySQL8.0.26
 
-## 環境構築
-　１．docker-compose exec php bash
-
-　２．compose install
-
-　３．「.env.example」ファイルを「.env」ファイルに変更。または、新しく.envファイルを作成
-
-　４．.envに以下の環境変数を追加
 ### Dockerビルド
 １．git clone git@github.com:mymnsd/atte.git
 

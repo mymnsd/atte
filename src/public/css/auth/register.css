@@ -1,0 +1,14 @@
+.register__content{
+  margin: 0 auto;
+  max-width: 1500px;
+  text-align: center;
+  width: 30%;
+}
+
+.register__content-inner{
+  width: 100%;
+}
+
+.register-form__heading {
+  margin: 60px 0 30px 0;
+}

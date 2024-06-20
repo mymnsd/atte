@@ -1,5 +1,11 @@
 .attendance__content{
+  max-width: 1500px;
+}
 
+.attendance__content-inner {
+  margin: 0 auto;
+  text-align: center;
+  width: 80%;
 }
 
 .date{
@@ -38,7 +44,7 @@
 
 .attendance__link--left:hover,
 .attendance__link--right:hover {
-  background-color: lightcyan;
+  background-color: lightblue;
 }
 
 .attendance__link--left::after{
@@ -72,14 +78,6 @@
 .attendance-table__row{
   border-top: 2px solid #ddd;
   line-height: 50px;
-}
-
-.attendance-table__header{
-
-}
-
-.attendance-table__text{
-  
 }
 
 

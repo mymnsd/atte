@@ -1,0 +1,15 @@
+.login__content{
+  max-width: 1500px;
+  margin: 0 auto;
+  text-align: center;
+  width: 30%;
+}
+
+.login__content-inner{
+  width: 100%;
+}
+
+.login-form__heading{
+  margin: 60px 0 30px 0;
+}
+

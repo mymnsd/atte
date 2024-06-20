@@ -1,17 +1,77 @@
-.date{
+.attendance__content{
 
+}
+
+.date{
+  padding: 0 40px;
 }
 
 .attendance-table{
-
+  margin-top: 50px;
 }
 
 .attendance-table__inner{
+  margin-bottom: 50px;
+  width: 100%;
+}
 
+.attendance__content-date{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.attendance__link--left,
+.attendance__link--right{
+  background-color: #fff;
+  border-radius: 3px;
+  border: 1px solid blue;
+  display: block;
+  color: blue;
+  padding: 13px;
+  position: relative;
+  text-align: center;
+  transition: 0.3s;
+  width: 40px;
+}
+
+.attendance__link--left:hover,
+.attendance__link--right:hover {
+  background-color: lightcyan;
+}
+
+.attendance__link--left::after{
+  content: '';
+  border: 0;
+  border-top: 2px solid blue;
+  border-right: 2px solid blue;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  top: 50%;
+  left: 45%;
+  transform: translateY(-50%) rotate(-135deg);
+}
+
+.attendance__link--right::after {
+  content: '';
+  border: 0;
+  border-top: 2px solid blue;
+  border-right: 2px solid blue;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  top: 50%;
+  right: 45%;
+  transform: translateY(-50%) rotate(45deg);
 }
 
 .attendance-table__row{
-
+  border-top: 2px solid #ddd;
+  line-height: 50px;
 }
 
 .attendance-table__header{
@@ -21,3 +81,5 @@
 .attendance-table__text{
   
 }
+
+

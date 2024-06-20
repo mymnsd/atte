@@ -16,13 +16,13 @@ use App\Http\Controllers\RestController;
 |
 */
 
+
 Route::middleware('auth')->group(function () {
-    // ログインページ表示
+    // ログインページ
     Route::get('/', [AuthController::class, 'getLogin']);
+    Route::post('/',[AuthController::class,'postLogin']);
+    // 日付一覧ページ表示
     Route::get('/attendance',[AttendanceController::class,'getAttendance']);
-    // Route::post('/attendance',[AttendanceController::class,'postAttendance']);
-    // ページネーション
-    // Route::get('/attendance/{num}', [AttendanceController::class, 'getPaginate']);
     // 出退勤打刻
     Route::post('/attendance/start',[AttendanceController::class,'startAttendance']);
     Route::post('/attendance/end',[AttendanceController::class,'endAttendance']);
@@ -30,5 +30,5 @@ Route::middleware('auth')->group(function () {
     Route::post('/break/start',[RestController::class,'startRest']);
     Route::post('break/end',
     [RestController::class,'endRest']);
-    Route::get('break/time',[RestController::class,'showRest']);
+
 });

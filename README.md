@@ -29,6 +29,8 @@ laravel学習のまとめとして作成しました。
   
   ・MySQL8.0.26
 
+## 環境構築
+
 ### Dockerビルド
 １．git clone git@github.com:mymnsd/atte.git
 
@@ -45,21 +47,21 @@ laravel学習のまとめとして作成しました。
 
 ４．.envに以下の環境変数を追加
 
-DB_CONNECTION=mysql
+　　　　DB_CONNECTION=mysql
 
-DB_HOST=mysql
+　　　　DB_HOST=mysql
 
-DB_PORT=3306
+　　　　DB_PORT=3306
 
-DB_DATABASE=laravel_db
+　　　　DB_DATABASE=laravel_db
 
-DB_USERNAME=laravel_user
+　　　　DB_USERNAME=laravel_user
 
-DB_PASSWORD=laravel_pass
+　　　　DB_PASSWORD=laravel_pass
 
 ５．アプリケーションキーの作成
 
-php artisan key:generate
+　　　　php artisan key:generate
 
 ## テーブル仕様書
 ![スクリーンショット (29)](https://github.com/mymnsd/atte/assets/158548441/5d5f8307-38ca-4f02-8eb9-60d0faea8625)

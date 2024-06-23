@@ -17,13 +17,4 @@ class AuthController extends Controller
         $password = $request->password;
         return view('index');
     }
-
-    // public function postLogout(Request $request){
-    //     User::logout();
-    //     $request->session()->invalidate();
-    //     $request->session()->regenerateToken();
-    //     return redirect('auth.login');
-    // }
-    
-    
 }

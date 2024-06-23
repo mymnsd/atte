@@ -45,37 +45,6 @@ class RestController extends Controller
             return redirect('/');
         }
         return redirect('/');
-        
-
-        // $startRest = new Carbon($outTime->start_rest);
-        // $endRest = new Carbon($outTime->end_rest);
-
-        // $restTime = $startRest-> diffInMinutes($endRest);
-
-        // if($restRecord){
-        //     $restRecord->update([
-        //         'end_rest' => Carbon::now(),
-        // ]);
-        //     return redirect('/');
-        // }
-        // return redirect('/');
     }
 
-    // public function showRest(){
-    //     $user = Auth::user();
-    //     $rests = Rest::whereHas('attendance',function($query) use ($user){
-    //         $query->where('user_id',$user->id);
-    //     })->get();
-
-    //     $totalRest = $rests->reduce(function ($carry,$rest){
-    //         if($rest->start_rest && $rest->end_rest){
-    //             $carry += Carbon::parse($rest->end_rest)->deffInSeconds(Carbon::parse($rest->start_rest));
-    //     }
-    //     return $carry;
-    //     }, 0);
-
-    //     return view('attendance',[
-    //         'totalRest' => $totalRest,
-    //         'rests' => $rests, 
-    //     ]);
 }
